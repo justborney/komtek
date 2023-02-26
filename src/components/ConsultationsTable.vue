@@ -1,45 +1,19 @@
 <template>
   <div class="consultations-table">
-    <el-table
-      border
-      :data="formattedConsultations"
-      empty-text="Нет консультаций"
-      cell-class-name="column-symptoms"
-    >
-      <el-table-column
-        sortable
-        prop="patientName"
-        label="Пациент"
-        width="300"
-      />
+    <el-table border :data="formattedConsultations" empty-text="Нет консультаций" cell-class-name="column-symptoms">
+      <el-table-column sortable prop="patientName" label="Пациент" width="300" />
       <el-table-column sortable prop="date" label="Дата" width="120" />
       <el-table-column sortable prop="time" label="Время" width="100" />
       <el-table-column sortable prop="symptoms" label="Симптомы" />
       <el-table-column align="center" width="160">
         <template slot-scope="scope">
-          <el-button
-            type="primary"
-            icon="el-icon-edit"
-            size="mini"
-            class="action"
-            @click="opentEditForm(scope.row)"
-          />
-          <el-button
-            type="danger"
-            icon="el-icon-delete"
-            size="mini"
-            class="action"
-            @click="remove(scope.row)"
-          />
+          <el-button type="primary" icon="el-icon-edit" size="mini" class="action" @click="opentEditForm(scope.row)" />
+          <el-button type="danger" icon="el-icon-delete" size="mini" class="action" @click="remove(scope.row)" />
         </template>
       </el-table-column>
     </el-table>
 
-    <el-dialog
-      title="Редактирование консультации"
-      :visible.sync="consultationEditFormVisible"
-      width="30%"
-    >
+    <el-dialog title="Редактирование консультации" :visible.sync="consultationEditFormVisible" width="30%">
       <ConsultationsForm
         v-if="consultationEditFormVisible"
         :edited-consultation="editedConsultation"
@@ -78,9 +52,7 @@ export default {
         return {
           ...cons,
           patientName: patient
-            ? `${patient.lastName} ${patient.firstName} ${
-                patient.fatherName ?? ""
-              }`
+            ? `${patient.lastName} ${patient.firstName} ${patient.fatherName ?? ""}`
             : "Пациент не найден",
         };
       });
@@ -88,11 +60,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("consultations", [
-      "removeConsultation",
-      "getConsultations",
-      "editConsultation",
-    ]),
+    ...mapActions("consultations", ["removeConsultation", "getConsultations", "editConsultation"]),
 
     opentEditForm(consultation) {
       this.editedConsultation = consultation;
@@ -114,16 +82,13 @@ export default {
     },
 
     remove({ id }) {
-      this.$confirm(
-        "Вы действительно хотите удалить консультацию",
-        "Удаление консультации",
-        {
-          confirmButtonText: "Удалить",
-          cancelButtonText: "Отмена",
-          type: "warning",
-        }
-      ).then(() => {
+      this.$confirm("Вы действительно хотите удалить консультацию", "Удаление консультации", {
+        confirmButtonText: "Удалить",
+        cancelButtonText: "Отмена",
+        type: "warning",
+      }).then(() => {
         this.removeConsultation({ id }).then((response) => {
+          console.log(response);
           if (response.ok) {
             this.getConsultations();
           }

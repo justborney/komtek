@@ -1,11 +1,5 @@
 <template>
-  <el-form
-    ref="patientForm"
-    class="patients-form"
-    :model="form"
-    :rules="rules"
-    label-width="140px"
-  >
+  <el-form ref="patientForm" class="patients-form" :model="form" :rules="rules" label-width="140px">
     <el-form-item label="Фамилия" prop="lastName">
       <el-input v-model="form.lastName" placeholder="Фамилия"></el-input>
     </el-form-item>
@@ -19,36 +13,47 @@
     </el-form-item>
 
     <el-form-item label="Дата рождения" prop="brithDate">
-      <el-date-picker
-        type="date"
-        placeholder="Выберите дату"
-        value-format="yyyy-MM-dd"
-        v-model="form.brithDate"
-      />
+      <el-date-picker type="date" placeholder="Выберите дату" value-format="yyyy-MM-dd" v-model="form.brithDate" />
     </el-form-item>
 
     <el-form-item label="Пол" prop="sex">
       <el-radio-group v-model="form.sex">
         <el-radio label="male">Мужской</el-radio>
         <el-radio label="female">Женский</el-radio>
-        <el-radio label="pidaras">Не скажу</el-radio>
       </el-radio-group>
     </el-form-item>
 
     <el-form-item label="СНИЛС" prop="SNILS">
-      <el-input v-model="form.SNILS" placeholder="***-***-*** **"></el-input>
+      <el-input
+        v-model="form.SNILS"
+        placeholder="Введите СНИЛС без разделителей"
+        maxlength="11"
+        show-word-limit
+      ></el-input>
     </el-form-item>
 
-    <el-form-item label="Вес, кг" props="weight">
-      <el-input v-model="form.physiologicalData.weight"></el-input>
+    <el-form-item label="Вес, кг" prop="weight">
+      <el-input
+        type="number"
+        :value="form.physiologicalData.weight"
+        @input="(value) => (form.physiologicalData.weight = value ? parseInt(value) : null)"
+      ></el-input>
     </el-form-item>
 
-    <el-form-item label="Рост, см" props="height">
-      <el-input v-model="form.physiologicalData.height"></el-input>
+    <el-form-item label="Рост, см" prop="height">
+      <el-input
+        type="number"
+        :value="form.physiologicalData.height"
+        @input="(value) => (form.physiologicalData.height = value ? parseInt(value) : null)"
+      ></el-input>
     </el-form-item>
 
     <el-form-item label="Возраст" prop="age">
-      <el-input v-model="form.physiologicalData.age"></el-input>
+      <el-input
+        type="number"
+        :value="form.physiologicalData.age"
+        @input="(value) => (form.physiologicalData.age = value ? parseInt(value) : null)"
+      ></el-input>
     </el-form-item>
 
     <div class="actions">
@@ -104,7 +109,6 @@ export default {
           {
             validator: validateSnils,
             trigger: "blur",
-            required: true,
           },
         ],
         physiologicalData: {

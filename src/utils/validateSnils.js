@@ -1,5 +1,5 @@
 export default (rule, value, callback) => {
-  var result = false;
+  let result = false;
 
   if (typeof value === "number") {
     value = value.toString();
@@ -13,11 +13,11 @@ export default (rule, value, callback) => {
   } else if (value.length !== 11) {
     callback(new Error("СНИЛС может состоять только из 11 цифр"));
   } else {
-    var sum = 0;
-    for (var i = 0; i < 9; i++) {
+    let sum = 0;
+    for (let i = 0; i < 9; i++) {
       sum += parseInt(value[i]) * (9 - i);
     }
-    var checkDigit = 0;
+    let checkDigit = 0;
     if (sum < 100) {
       checkDigit = sum;
     } else if (sum > 101) {

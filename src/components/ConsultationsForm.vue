@@ -1,23 +1,11 @@
 <template>
-  <el-form
-    ref="consultationForm"
-    class="consultation-form"
-    :model="form"
-    :rules="rules"
-    label-width="140px"
-  >
+  <el-form ref="consultationForm" class="consultation-form" :model="form" :rules="rules" label-width="140px">
     <el-form-item label="Пациент" prop="patientId">
-      <el-select
-        v-model="form.patientId"
-        placeholder="Выберите пациента"
-        no-data-text="Нет пациентов"
-      >
+      <el-select v-model="form.patientId" placeholder="Выберите пациента" no-data-text="Нет пациентов">
         <el-option
           v-for="patient in patients"
           :key="patient.id"
-          :label="`${patient.lastName} ${patient.firstName} ${
-            patient.fatherName ?? ''
-          }`"
+          :label="`${patient.lastName} ${patient.firstName} ${patient.fatherName ?? ''}`"
           :value="patient.id"
         />
       </el-select>
@@ -29,6 +17,7 @@
         type="date"
         value-format="yyyy-MM-dd"
         placeholder="Выберите дату"
+        :picker-options="{ disabledDate, firstDayOfWeek: 1 }"
       />
     </el-form-item>
 
@@ -40,6 +29,7 @@
           start: '08:00',
           step: '00:15',
           end: '20:00',
+          minTime: `${new Date().getHours()}:${new Date().getMinutes()}`,
         }"
       />
     </el-form-item>
@@ -89,9 +79,7 @@ export default {
       return {
         patientId: [{ required: true, message: "Обязательное поле" }],
         date: [{ required: true, message: "Обязательное поле" }],
-        time: [
-          { required: true, trigger: "blur", validator: this.validateTime },
-        ],
+        time: [{ required: true, trigger: "blur", validator: this.validateTime }],
         symptoms: [],
       };
     },
@@ -106,6 +94,10 @@ export default {
   methods: {
     ...mapActions("consultations", ["addConsultation", "getConsultations"]),
 
+    disabledDate(time) {
+      return time.getTime() < Date.now() - 86400000;
+    },
+
     validateTime(_, value, callback) {
       if (!value) {
         callback(new Error("Обязательное поле"));
@@ -113,9 +105,7 @@ export default {
 
       const foundConsultingAtTheSameTime = this.consultations.find(
         ({ date, time, patientId }) =>
-          patientId === this.form.patientId &&
-          date === this.form.date &&
-          time === this.form.time
+          patientId === this.form.patientId && date === this.form.date && time === this.form.time
       );
 
       if (foundConsultingAtTheSameTime) {

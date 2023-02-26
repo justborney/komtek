@@ -12,13 +12,14 @@ export default {
   },
 
   actions: {
+    /**
+     * Получаем данные по пациентам с эндпоинта /patients
+     * */
     getPatients({ commit }) {
       fetch("http://localhost:3000/patients")
         .then((response) => response.json())
         .then((data) => {
-          if (data.length) {
-            commit("SET_PATIENTS", data);
-          }
+          commit("SET_PATIENTS", data);
         })
         .catch((err) => console.error(err));
     },
@@ -27,7 +28,7 @@ export default {
       return fetch("http://localhost:3000/patients", {
         method: "POST",
         body: JSON.stringify({
-          id: Math.floor(Math.random() * 999999), // В тупую присваиваю типа уникальное число, чтобы запрос работал
+          id: Math.floor(Math.random() * 999999), // Присваивание уникального числа, чтобы запрос прошел (для json-server)
           ...data,
         }),
         headers: {

@@ -7,48 +7,20 @@
       <el-table-column sortable prop="brithDate" label="Дата рождения" />
       <el-table-column sortable prop="sex" label="Пол" />
       <el-table-column sortable prop="SNILS" label="СНИЛС" />
-      <el-table-column sortable label="Физиологические данные пациента">
-        <el-table-column
-          sortable
-          prop="physiologicalData.weight"
-          label="Вес, кг"
-        />
-        <el-table-column
-          sortable
-          prop="physiologicalData.height"
-          label="Рост, см"
-        />
-        <el-table-column
-          sortable
-          prop="physiologicalData.age"
-          label="Возраст"
-        />
+      <el-table-column align="center" label="Физиологические данные пациента">
+        <el-table-column sortable prop="physiologicalData.weight" label="Вес, кг" />
+        <el-table-column sortable prop="physiologicalData.height" label="Рост, см" />
+        <el-table-column sortable prop="physiologicalData.age" label="Возраст" />
       </el-table-column>
       <el-table-column align="center" width="160">
         <template slot-scope="scope">
-          <el-button
-            type="primary"
-            icon="el-icon-edit"
-            size="mini"
-            class="action"
-            @click="opentEditForm(scope.row)"
-          />
-          <el-button
-            type="danger"
-            icon="el-icon-delete"
-            size="mini"
-            class="action"
-            @click="remove(scope.row)"
-          />
+          <el-button type="primary" icon="el-icon-edit" size="mini" class="action" @click="opentEditForm(scope.row)" />
+          <el-button type="danger" icon="el-icon-delete" size="mini" class="action" @click="remove(scope.row)" />
         </template>
       </el-table-column>
     </el-table>
 
-    <el-dialog
-      title="Редактирование пациента"
-      :visible.sync="patientEditFormVisible"
-      width="30%"
-    >
+    <el-dialog title="Редактирование пациента" :visible.sync="patientEditFormVisible" width="30%">
       <PatientsForm
         v-if="patientEditFormVisible"
         :edited-patient="editedPatient"
@@ -87,21 +59,34 @@ export default {
     ...mapState("patients", ["patients"]),
 
     filteredPatients() {
-      return this.patients.filter(
-        ({ firstName, lastName, fatherName, SNILS }) => {
+      return this.patients
+        .filter(({ firstName, lastName, fatherName, SNILS }) => {
           return [firstName, lastName, fatherName, SNILS].some((field) => {
-            return field?.includes(this.searchedPatient);
+            return field.toLowerCase().includes(this.searchedPatient.toLowerCase());
           });
-        }
-      );
+        })
+        .map((patient) => {
+          return {
+            ...patient,
+            SNILS: this.formatSnils(patient.SNILS),
+          };
+        });
     },
   },
 
   methods: {
     ...mapActions("patients", ["removePatient", "getPatients", "editPatient"]),
 
+    formatSnils(SNILS) {
+      let match = SNILS.match(/^(\d{3})(\d{3})(\d{3})(\d{2})$/);
+      if (match) {
+        return `${match[1]}-${match[2]}-${match[3]} ${match[4]}`;
+      }
+      return null;
+    },
+
     opentEditForm(patient) {
-      this.editedPatient = patient;
+      this.editedPatient = this.patients.find(({ id }) => id === patient.id);
       this.patientEditFormVisible = true;
     },
 
@@ -115,15 +100,11 @@ export default {
     },
 
     remove({ id }) {
-      this.$confirm(
-        "Вы действительно хотите удалить пациента",
-        "Удаление пациента",
-        {
-          confirmButtonText: "Удалить",
-          cancelButtonText: "Отмена",
-          type: "warning",
-        }
-      ).then(() => {
+      this.$confirm("Вы действительно хотите удалить пациента", "Удаление пациента", {
+        confirmButtonText: "Удалить",
+        cancelButtonText: "Отмена",
+        type: "warning",
+      }).then(() => {
         this.removePatient({ id }).then((response) => {
           if (response.ok) {
             this.getPatients();

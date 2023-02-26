@@ -1,5 +1,5 @@
 <template>
-  <el-input v-model="searchedPatient" placeholder="Введите ФИЛ или СНИЛС" />
+  <el-input v-model="searchedPatient" autofocus placeholder="Введите ФИО или СНИЛС" />
 </template>
 
 <script>

@@ -16,9 +16,7 @@ export default {
       fetch("http://localhost:3000/consultations")
         .then((response) => response.json())
         .then((data) => {
-          if (data.length) {
-            commit("SET_CONSULTATIONS", data);
-          }
+          commit("SET_CONSULTATIONS", data);
         })
         .catch((err) => console.error(err));
     },
