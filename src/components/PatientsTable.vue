@@ -1,0 +1,147 @@
+<template>
+  <div class="patients-table">
+    <el-table :data="filteredPatients" border empty-text="Нет пациентов">
+      <el-table-column sortable prop="lastName" label="Фамилия" />
+      <el-table-column sortable prop="firstName" label="Имя" />
+      <el-table-column sortable prop="fatherName" label="Отчество" />
+      <el-table-column sortable prop="brithDate" label="Дата рождения" />
+      <el-table-column sortable prop="sex" label="Пол" />
+      <el-table-column sortable prop="SNILS" label="СНИЛС" />
+      <el-table-column sortable label="Физиологические данные пациента">
+        <el-table-column
+          sortable
+          prop="physiologicalData.weight"
+          label="Вес, кг"
+        />
+        <el-table-column
+          sortable
+          prop="physiologicalData.height"
+          label="Рост, см"
+        />
+        <el-table-column
+          sortable
+          prop="physiologicalData.age"
+          label="Возраст"
+        />
+      </el-table-column>
+      <el-table-column align="center" width="160">
+        <template slot-scope="scope">
+          <el-button
+            type="primary"
+            icon="el-icon-edit"
+            size="mini"
+            class="action"
+            @click="opentEditForm(scope.row)"
+          />
+          <el-button
+            type="danger"
+            icon="el-icon-delete"
+            size="mini"
+            class="action"
+            @click="remove(scope.row)"
+          />
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <el-dialog
+      title="Редактирование пациента"
+      :visible.sync="patientEditFormVisible"
+      width="30%"
+    >
+      <PatientsForm
+        v-if="patientEditFormVisible"
+        :edited-patient="editedPatient"
+        @edit="handleEdit"
+        @close="closeForm"
+      />
+    </el-dialog>
+  </div>
+</template>
+
+<script>
+import { mapActions, mapState } from "vuex";
+
+import PatientsForm from "@/components/PatientsForm.vue";
+
+export default {
+  name: "PatientsTable",
+
+  components: { PatientsForm },
+
+  props: {
+    searchedPatient: {
+      type: String,
+      default: "",
+    },
+  },
+
+  data() {
+    return {
+      editedPatient: {},
+      patientEditFormVisible: false,
+    };
+  },
+
+  computed: {
+    ...mapState("patients", ["patients"]),
+
+    filteredPatients() {
+      return this.patients.filter(
+        ({ firstName, lastName, fatherName, SNILS }) => {
+          return [firstName, lastName, fatherName, SNILS].some((field) => {
+            return field?.includes(this.searchedPatient);
+          });
+        }
+      );
+    },
+  },
+
+  methods: {
+    ...mapActions("patients", ["removePatient", "getPatients", "editPatient"]),
+
+    opentEditForm(patient) {
+      this.editedPatient = patient;
+      this.patientEditFormVisible = true;
+    },
+
+    handleEdit(form) {
+      this.editPatient(form).then((response) => {
+        if (response.ok) {
+          this.closeForm();
+          this.getPatients();
+        }
+      });
+    },
+
+    remove({ id }) {
+      this.$confirm(
+        "Вы действительно хотите удалить пациента",
+        "Удаление пациента",
+        {
+          confirmButtonText: "Удалить",
+          cancelButtonText: "Отмена",
+          type: "warning",
+        }
+      ).then(() => {
+        this.removePatient({ id }).then((response) => {
+          if (response.ok) {
+            this.getPatients();
+          }
+        });
+      });
+    },
+
+    closeForm() {
+      this.patientEditFormVisible = false;
+      this.editedPatient = {};
+    },
+  },
+};
+</script>
+
+<style scoped lang="scss">
+.action {
+  font-size: 1rem;
+}
+</style>
