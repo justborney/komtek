@@ -39,7 +39,7 @@
             icon="el-icon-edit"
             size="mini"
             class="action"
-            @click="opentEditForm(scope.row)"
+            @click="openEditForm(scope.row)"
           />
           <el-button
             type="danger"
@@ -75,21 +75,29 @@ import ConsultationsForm from "@/components/ConsultationsForm.vue";
 export default {
   name: "ConsultationsTable",
 
+  // Указание компонентов, используемых внутри этого компонента
   components: { ConsultationsForm },
 
+  // Локальные данные компонента
   data() {
     return {
-      consultationEditFormVisible: false,
+      // Редактируемая консультация
       editedConsultation: {},
+      consultationEditFormVisible: false,
     };
   },
 
+  // Вычисляемые свойства
   computed: {
+    // Вычисляемые свойства из хранилища patients
     ...mapState("patients", ["patients"]),
+    // Вычисляемые свойства из хранилища consultations
     ...mapState("consultations", ["consultations"]),
 
+    // Форматирование данных о консультациях и добавление имени пациента к каждой записи
     formattedConsultations() {
       return this.consultations.map((cons) => {
+        // Поиск данных о пациенте, участвующем в консультации
         const patient = this.patients.find(({ id }) => id === cons.patientId);
 
         return {
@@ -102,32 +110,35 @@ export default {
     },
   },
 
+  // Методы компонента: получение, редактирование, удаление
   methods: {
     ...mapActions("consultations", [
-      "removeConsultation",
       "getConsultations",
       "editConsultation",
+      "removeConsultation",
     ]),
 
-    opentEditForm(consultation) {
+    // Открытие формы редактирования консультации
+    openEditForm(consultation) {
+      // Сохранение данных отредактированной консультации
       this.editedConsultation = consultation;
+      // Установка видимости формы редактирования консультации
       this.consultationEditFormVisible = true;
     },
 
+    // Обработка редактирования консультации
     handleEdit(form) {
       this.editConsultation(form).then((response) => {
         if (response.ok) {
+          // Закрытие формы редактирования консультации
           this.closeForm();
+          // Получение (обновление) списка консультаций
           this.getConsultations();
         }
       });
     },
 
-    closeForm() {
-      this.consultationEditFormVisible = false;
-      this.editedConsultation = {};
-    },
-
+    // Удаление консультации
     remove({ id }) {
       this.$confirm(
         "Вы действительно хотите удалить консультацию",
@@ -145,6 +156,14 @@ export default {
           }
         });
       });
+    },
+
+    // Закрытие формы редактирования консультации
+    closeForm() {
+      // Установка видимости формы редактирования консультации
+      this.consultationEditFormVisible = false;
+      // Очистка данных отредактированной консультации
+      this.editedConsultation = {};
     },
   },
 };

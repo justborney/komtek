@@ -6,6 +6,7 @@ export default {
   },
 
   mutations: {
+    // Мутация для установки списка пациентов
     SET_PATIENTS(state, patients) {
       state.patients = patients;
     },
@@ -16,6 +17,7 @@ export default {
      * Получаем данные по пациентам с эндпоинта /patients
      * */
     getPatients({ commit }) {
+      // Запрос для получения списка пациентов
       fetch("http://localhost:3000/patients")
         .then((response) => response.json())
         .then((data) => {
@@ -25,6 +27,7 @@ export default {
     },
 
     addPatient(_, data) {
+      // Добавление пациента
       return fetch("http://localhost:3000/patients", {
         method: "POST",
         body: JSON.stringify({
@@ -38,6 +41,7 @@ export default {
     },
 
     editPatient(_, data) {
+      // Редактирование пациента
       return fetch(`http://localhost:3000/patients/${data.id}`, {
         method: "PUT",
         body: JSON.stringify(data),
@@ -48,6 +52,7 @@ export default {
     },
 
     removePatient(_, { id }) {
+      // Удаление пациента
       return fetch(`http://localhost:3000/patients/${id}`, {
         method: "DELETE",
         headers: {

@@ -6,6 +6,7 @@ export default {
   },
 
   mutations: {
+    // Мутация для установки списка консультаций
     SET_CONSULTATIONS(state, consultations) {
       state.consultations = consultations;
     },
@@ -13,15 +14,17 @@ export default {
 
   actions: {
     getConsultations({ commit }) {
+      // Запрос для получения списка консультаций
       fetch("http://localhost:3000/consultations")
         .then((response) => response.json())
         .then((data) => {
-          commit("SET_CONSULTATIONS", data);
+          commit("SET_CONSULTATIONS", data); // Вызов мутации для установки списка консультаций в сторе
         })
         .catch((err) => console.error(err));
     },
 
     addConsultation(_, data) {
+      // Добавление консультации
       return fetch("http://localhost:3000/consultations", {
         method: "POST",
         body: JSON.stringify({
@@ -35,6 +38,7 @@ export default {
     },
 
     editConsultation(_, data) {
+      // Редактирование консультации
       return fetch(`http://localhost:3000/consultations/${data.id}`, {
         method: "PUT",
         body: JSON.stringify(data),
@@ -45,6 +49,7 @@ export default {
     },
 
     removeConsultation(_, { id }) {
+      // Удаление консультации
       return fetch(`http://localhost:3000/consultations/${id}`, {
         method: "DELETE",
         headers: {

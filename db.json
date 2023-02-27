@@ -2,12 +2,40 @@
   "patients": [
     {
       "id": 607325,
-      "firstName": "123",
-      "lastName": "123",
-      "fatherName": "",
-      "brithDate": "2023-02-21",
+      "firstName": "Иван",
+      "lastName": "Иванов",
+      "fatherName": "Иванович",
+      "brithDate": "1995-07-06",
       "sex": "male",
       "SNILS": "49387845367",
+      "physiologicalData": {
+        "weight": 78,
+        "height": null,
+        "age": null
+      }
+    },
+    {
+      "id": 301338,
+      "firstName": "Петр",
+      "lastName": "Петров",
+      "fatherName": "",
+      "brithDate": "2002-07-09",
+      "sex": "male",
+      "SNILS": "63764980041",
+      "physiologicalData": {
+        "weight": null,
+        "height": null,
+        "age": null
+      }
+    },
+    {
+      "id": 950550,
+      "firstName": "Иван",
+      "lastName": "Иван-ов",
+      "fatherName": "",
+      "brithDate": "2001-06-12",
+      "sex": "Мужской",
+      "SNILS": "62228279688",
       "physiologicalData": {
         "weight": null,
         "height": null,
@@ -15,5 +43,14 @@
       }
     }
   ],
-  "consultations": []
+  "consultations": [
+    {
+      "id": 971932,
+      "date": "2023-02-28",
+      "time": "08:45",
+      "symptoms": "",
+      "patientId": 607325,
+      "patientName": "123 123 "
+    }
+  ]
 }

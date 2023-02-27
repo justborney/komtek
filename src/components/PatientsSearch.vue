@@ -7,9 +7,14 @@
 </template>
 
 <script>
+/** Компонент для поиска пациента по имени и фамилии
+ * Принимает на вход текущее значение поискового запроса
+ * и передает его наружу через событие input
+ * */
 export default {
   name: "PatientsSearch",
 
+  // Props для передачи данных из родительского компонента
   props: {
     value: {
       type: String,
@@ -17,6 +22,7 @@ export default {
     },
   },
 
+  // Вычисляемые свойства
   computed: {
     searchedPatient: {
       get() {

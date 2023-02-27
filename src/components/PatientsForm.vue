@@ -53,8 +53,8 @@
       prop="sex"
     >
       <el-radio-group v-model="form.sex">
-        <el-radio label="male">Мужской</el-radio>
-        <el-radio label="female">Женский</el-radio>
+        <el-radio :label="'Мужской'">Мужской</el-radio>
+        <el-radio :label="'Женский'">Женский</el-radio>
       </el-radio-group>
     </el-form-item>
 
@@ -128,13 +128,16 @@ import validateSnils from "@/utils/validateSnils.js";
 export default {
   name: "PatientsForm",
 
+  // Props для передачи данных из родительского компонента
   props: {
+    // Редактируемый пациент
     editedPatient: {
       type: Object,
       default: null,
     },
   },
 
+  // Локальные данные компонента
   data() {
     return {
       form: {
@@ -153,16 +156,38 @@ export default {
     };
   },
 
+  // Вычисляемые свойства
   computed: {
+    // Правила валидации для формы
     rules() {
+      const russianLettersPattern = /^[а-яА-ЯёЁ\s-]+$/;
+
       return {
-        lastName: [{ required: true, message: "Обязательное поле" }],
-        firstName: [{ required: true, message: "Обязательное поле" }],
-        fatherName: [{}],
+        lastName: [
+          { required: true, message: "Обязательное поле" },
+          {
+            pattern: russianLettersPattern,
+            message: "Допустимы только русские буквы",
+          },
+        ],
+        firstName: [
+          { required: true, message: "Обязательное поле" },
+          {
+            pattern: russianLettersPattern,
+            message: "Допустимы только русские буквы",
+          },
+        ],
+        fatherName: [
+          {
+            pattern: russianLettersPattern,
+            message: "Допустимы только русские буквы",
+          },
+        ],
         brithDate: [{ required: true, message: "Обязательное поле" }],
         sex: [{ required: true, message: "Обязательное поле" }],
         SNILS: [
           {
+            // Для валидации СНИЛС используется функция validateSnils
             validator: validateSnils,
             trigger: "blur",
           },
@@ -176,25 +201,30 @@ export default {
     },
   },
 
+  // Создаем экземпляр формы, если редактируемый пациент передан в компонент
   created() {
     if (this.editedPatient) {
       this.form = JSON.parse(JSON.stringify(this.editedPatient));
     }
   },
 
+  // Методы компонента
   methods: {
+    // Action-методы из хранилища patients
     ...mapActions("patients", ["addPatient", "getPatients"]),
 
-    /** Тестовый снилс: 95431468323;
-     * Костыль, valid ничего не возвращает, если все поля валидны.
-     * */
+    // Обрабатываем событие отправки формы
     onSubmit(formName) {
       let isValid;
 
+      // Валидируем форму
       this.$refs[formName].validate((valid) => {
         isValid = valid;
       });
 
+      /** Если форма валидна, вызывается метод добавления пациента или редактирования,
+       * в зависимости от наличия объекта editedPatient
+       */
       if (isValid !== false) {
         if (this.editedPatient) {
           this.$emit("edit", this.form);

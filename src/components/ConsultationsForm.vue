@@ -83,15 +83,19 @@ import { mapState, mapActions } from "vuex";
 export default {
   name: "ConsultationsForm",
 
+  // Props для передачи данных из родительского компонента
   props: {
+    // Редактируемая консультация
     editedConsultation: {
       type: Object,
       default: null,
     },
   },
 
+  // Локальные данные компонента
   data() {
     return {
+      // Данные формы
       form: {
         date: "",
         time: "",
@@ -101,10 +105,14 @@ export default {
     };
   },
 
+  // Вычисляемые свойства
   computed: {
+    // Вычисляемые свойства из хранилища patients
     ...mapState("patients", ["patients"]),
+    // Вычисляемые свойства из хранилища consultations
     ...mapState("consultations", ["consultations"]),
 
+    // Правила валидации для формы
     rules() {
       return {
         patientId: [{ required: true, message: "Обязательное поле" }],
@@ -115,20 +123,26 @@ export default {
     },
   },
 
+  // Хук жизненного цикла компонента
   created() {
+    // Если редактируется консультация, то заполняем форму ее данными
     if (this.editedConsultation) {
       this.form = JSON.parse(JSON.stringify(this.editedConsultation));
     }
   },
 
+  // Методы компонента
   methods: {
+    // Action-методы из хранилища consultations
     ...mapActions("consultations", ["addConsultation", "getConsultations"]),
 
+    // Отключение дней в календаре, которые уже прошли
     disabledDate(time) {
       let dayTimestamp = 86400000;
       return time.getTime() < Date.now() - dayTimestamp;
     },
 
+    // Валидация времени
     validateTime(_, value, callback) {
       if (!value) {
         callback(new Error("Обязательное поле"));
@@ -146,10 +160,7 @@ export default {
       }
     },
 
-    timeToMinutes(time) {
-      return parseInt(time.slice(0, 2)) * 60 + parseInt(time.slice(3));
-    },
-
+    // Отправка формы на сервер
     onSubmit(formName) {
       let isValid;
 

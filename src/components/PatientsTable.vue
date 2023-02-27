@@ -65,7 +65,7 @@
             icon="el-icon-edit"
             size="mini"
             class="action"
-            @click="opentEditForm(scope.row)"
+            @click="openEditForm(scope.row)"
           />
           <el-button
             type="danger"
@@ -103,23 +103,31 @@ export default {
 
   components: { PatientsForm },
 
+  // Props для передачи данных из родительского компонента
   props: {
+    // Поисковый запрос
     searchedPatient: {
       type: String,
       default: "",
     },
   },
 
+  // Локальные данные компонента
   data() {
     return {
+      // Редактируемый пациент
       editedPatient: {},
+      // Установка видимости формы редактирования пациента
       patientEditFormVisible: false,
     };
   },
 
+  // Вычисляемые свойства
   computed: {
+    // Вычисляемые свойства из хранилища patients
     ...mapState("patients", ["patients"]),
 
+    // Фильтруем и форматируем пациентов по поисковому запросу
     filteredPatients() {
       return this.patients
         .filter(({ firstName, lastName, fatherName, SNILS }) => {
@@ -137,8 +145,10 @@ export default {
   },
 
   methods: {
-    ...mapActions("patients", ["removePatient", "getPatients", "editPatient"]),
+    // Методы компонента: получение, редактирование, удаление
+    ...mapActions("patients", ["getPatients", "editPatient", "removePatient"]),
 
+    // Форматируем СНИЛС пациента
     formatSnils(SNILS) {
       let match = SNILS.match(/^(\d{3})(\d{3})(\d{3})(\d{2})$/);
       if (match) {
@@ -147,11 +157,15 @@ export default {
       return null;
     },
 
-    opentEditForm(patient) {
+    // Открытие формы редактирования пациента
+    openEditForm(patient) {
+      // Сохранение данных отредактированного пациента
       this.editedPatient = this.patients.find(({ id }) => id === patient.id);
+      // Установка видимости формы редактирования пациента
       this.patientEditFormVisible = true;
     },
 
+    // Редактирование пациента
     handleEdit(form) {
       this.editPatient(form).then((response) => {
         if (response.ok) {
@@ -161,6 +175,7 @@ export default {
       });
     },
 
+    // Удаление пациента
     remove({ id }) {
       this.$confirm("Вы действительно хотите удалить пациента", "Удаление пациента", {
         confirmButtonText: "Удалить",
@@ -175,6 +190,7 @@ export default {
       });
     },
 
+    // Закрытие формы редактирования пациента
     closeForm() {
       this.patientEditFormVisible = false;
       this.editedPatient = {};
