@@ -1,5 +1,8 @@
 <template>
-  <el-input v-model="searchedPatient" autofocus placeholder="Введите ФИО или СНИЛС" />
+  <el-input
+    v-model="searchedPatient"
+    autofocus
+    placeholder="Введите ФИО или СНИЛС" />
 </template>
 
 <script>
@@ -16,12 +19,12 @@ export default {
   computed: {
     searchedPatient: {
       get() {
-        return this.value;
+        return this.value
       },
       set(value) {
-        this.$emit("input", value);
+        this.$emit("input", value)
       },
     },
   },
-};
+}
 </script>
