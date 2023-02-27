@@ -1,115 +1,17 @@
 {
   "patients": [
     {
-      "id": 1,
-      "firstName": "Вася",
-      "lastName": "Славик",
-      "fatherName": "Славян",
-      "brithDate": "1993-01-08",
-      "sex": "Мужской",
-      "SNILS": "30248011817",
-      "physiologicalData": {
-        "weight": null,
-        "height": null,
-        "age": null
-      }
-    },
-    {
-      "id": 2,
-      "firstName": "Айнур",
-      "lastName": "Тактамышев",
-      "fatherName": "Айратович",
-      "brithDate": "1995-10-30",
-      "sex": "Мужской",
-      "SNILS": "36667777611",
-      "physiologicalData": {
-        "weight": null,
-        "height": null,
-        "age": 27
-      }
-    },
-    {
-      "id": 3,
-      "firstName": "Ильнур",
-      "lastName": "Курбангалеев",
+      "id": 607325,
+      "firstName": "123",
+      "lastName": "123",
       "fatherName": "",
-      "brithDate": "1993-03-01",
-      "sex": "Мужской",
-      "SNILS": "87233423768",
-      "physiologicalData": {
-        "weight": 53,
-        "height": 155,
-        "age": 29
-      }
-    },
-    {
-      "id": 4,
-      "firstName": "Лилия",
-      "lastName": "Пиздевич",
-      "fatherName": "Айнуровна",
-      "brithDate": "1992-05-11",
-      "sex": "Тёлка",
-      "SNILS": "91646571710",
+      "brithDate": "2023-02-21",
+      "sex": "male",
+      "SNILS": "49387845367",
       "physiologicalData": {
         "weight": null,
         "height": null,
         "age": null
-      }
-    },
-    {
-      "id": 5,
-      "firstName": "Леха",
-      "lastName": "Толколвый",
-      "fatherName": "Словарь",
-      "brithDate": "1999-04-24",
-      "sex": "Мужской",
-      "SNILS": "90180871560",
-      "physiologicalData": {
-        "weight": null,
-        "height": 203,
-        "age": 23
-      }
-    },
-    {
-      "id": 7,
-      "firstName": "Денис",
-      "lastName": "Пенис",
-      "fatherName": "Денисович",
-      "brithDate": "1997-07-17",
-      "sex": "Мужской",
-      "SNILS": "21481579988",
-      "physiologicalData": {
-        "weight": 88,
-        "height": null,
-        "age": 25
-      }
-    },
-    {
-      "id": 8,
-      "firstName": "Александр",
-      "lastName": "Ковырялкин",
-      "fatherName": "Вжопеныч",
-      "brithDate": "1995-07-18",
-      "sex": "Мужской",
-      "SNILS": "60311915514",
-      "physiologicalData": {
-        "height": null,
-        "weight": 95,
-        "age": 27
-      }
-    },
-    {
-      "id": 9,
-      "firstName": "Кристина",
-      "lastName": "Сучкина",
-      "fatherName": "Николаевна",
-      "brithDate": "1995-10-21",
-      "sex": "Тёлка",
-      "SNILS": "92039731583",
-      "physiologicalData": {
-        "weight": 93,
-        "height": 203,
-        "age": 27
       }
     }
   ],
