@@ -3,63 +3,77 @@
     <el-table
       :data="filteredPatients"
       border
-      empty-text="Нет пациентов">
+      empty-text="Нет пациентов"
+    >
       <el-table-column
         sortable
         prop="lastName"
-        label="Фамилия" />
+        label="Фамилия"
+      />
       <el-table-column
         sortable
         prop="firstName"
-        label="Имя" />
+        label="Имя"
+      />
       <el-table-column
         sortable
         prop="fatherName"
-        label="Отчество" />
+        label="Отчество"
+      />
       <el-table-column
         sortable
         prop="brithDate"
-        label="Дата рождения" />
+        label="Дата рождения"
+      />
       <el-table-column
         sortable
         prop="sex"
-        label="Пол" />
+        label="Пол"
+      />
       <el-table-column
         sortable
         prop="SNILS"
-        label="СНИЛС" />
+        label="СНИЛС"
+      />
       <el-table-column
         align="center"
-        label="Физиологические данные пациента">
+        label="Физиологические данные пациента"
+      >
         <el-table-column
           sortable
           prop="physiologicalData.weight"
-          label="Вес, кг" />
+          label="Вес, кг"
+        />
         <el-table-column
           sortable
           prop="physiologicalData.height"
-          label="Рост, см" />
+          label="Рост, см"
+        />
         <el-table-column
           sortable
           prop="physiologicalData.age"
-          label="Возраст" />
+          label="Возраст"
+        />
       </el-table-column>
       <el-table-column
         align="center"
-        width="160">
+        width="160"
+      >
         <template slot-scope="scope">
           <el-button
             type="primary"
             icon="el-icon-edit"
             size="mini"
             class="action"
-            @click="opentEditForm(scope.row)" />
+            @click="opentEditForm(scope.row)"
+          />
           <el-button
             type="danger"
             icon="el-icon-delete"
             size="mini"
             class="action"
-            @click="remove(scope.row)" />
+            @click="remove(scope.row)"
+          />
         </template>
       </el-table-column>
     </el-table>
@@ -67,20 +81,22 @@
     <el-dialog
       title="Редактирование пациента"
       :visible.sync="patientEditFormVisible"
-      width="30%">
+      width="30%"
+    >
       <PatientsForm
         v-if="patientEditFormVisible"
         :edited-patient="editedPatient"
         @edit="handleEdit"
-        @close="closeForm" />
+        @close="closeForm"
+      />
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex"
+import { mapActions, mapState } from "vuex";
 
-import PatientsForm from "@/components/PatientsForm.vue"
+import PatientsForm from "@/components/PatientsForm.vue";
 
 export default {
   name: "PatientsTable",
@@ -98,7 +114,7 @@ export default {
     return {
       editedPatient: {},
       patientEditFormVisible: false,
-    }
+    };
   },
 
   computed: {
@@ -108,15 +124,15 @@ export default {
       return this.patients
         .filter(({ firstName, lastName, fatherName, SNILS }) => {
           return [firstName, lastName, fatherName, SNILS].some((field) => {
-            return field.toLowerCase().includes(this.searchedPatient.toLowerCase())
-          })
+            return field.toLowerCase().includes(this.searchedPatient.toLowerCase());
+          });
         })
         .map((patient) => {
           return {
             ...patient,
             SNILS: this.formatSnils(patient.SNILS),
-          }
-        })
+          };
+        });
     },
   },
 
@@ -124,25 +140,25 @@ export default {
     ...mapActions("patients", ["removePatient", "getPatients", "editPatient"]),
 
     formatSnils(SNILS) {
-      let match = SNILS.match(/^(\d{3})(\d{3})(\d{3})(\d{2})$/)
+      let match = SNILS.match(/^(\d{3})(\d{3})(\d{3})(\d{2})$/);
       if (match) {
-        return `${match[1]}-${match[2]}-${match[3]} ${match[4]}`
+        return `${match[1]}-${match[2]}-${match[3]} ${match[4]}`;
       }
-      return null
+      return null;
     },
 
     opentEditForm(patient) {
-      this.editedPatient = this.patients.find(({ id }) => id === patient.id)
-      this.patientEditFormVisible = true
+      this.editedPatient = this.patients.find(({ id }) => id === patient.id);
+      this.patientEditFormVisible = true;
     },
 
     handleEdit(form) {
       this.editPatient(form).then((response) => {
         if (response.ok) {
-          this.closeForm()
-          this.getPatients()
+          this.closeForm();
+          this.getPatients();
         }
-      })
+      });
     },
 
     remove({ id }) {
@@ -153,18 +169,18 @@ export default {
       }).then(() => {
         this.removePatient({ id }).then((response) => {
           if (response.ok) {
-            this.getPatients()
+            this.getPatients();
           }
-        })
-      })
+        });
+      });
     },
 
     closeForm() {
-      this.patientEditFormVisible = false
-      this.editedPatient = {}
+      this.patientEditFormVisible = false;
+      this.editedPatient = {};
     },
   },
-}
+};
 </script>
 
 <style scoped lang="scss">

@@ -4,38 +4,45 @@
     class="consultation-form"
     :model="form"
     :rules="rules"
-    label-width="140px">
+    label-width="140px"
+  >
     <el-form-item
       label="Пациент"
-      prop="patientId">
+      prop="patientId"
+    >
       <el-select
         v-model="form.patientId"
         placeholder="Выберите пациента"
-        no-data-text="Нет пациентов">
+        no-data-text="Нет пациентов"
+      >
         <el-option
           v-for="patient in patients"
           :key="patient.id"
           :label="`${patient.lastName} ${patient.firstName} ${
             patient.fatherName ?? ''
           }`"
-          :value="patient.id" />
+          :value="patient.id"
+        />
       </el-select>
     </el-form-item>
 
     <el-form-item
       label="Дата"
-      prop="date">
+      prop="date"
+    >
       <el-date-picker
         v-model="form.date"
         type="date"
         value-format="yyyy-MM-dd"
         placeholder="Выберите дату"
-        :picker-options="{ disabledDate, firstDayOfWeek: 1 }" />
+        :picker-options="{ disabledDate, firstDayOfWeek: 1 }"
+      />
     </el-form-item>
 
     <el-form-item
       label="Время"
-      prop="time">
+      prop="time"
+    >
       <el-time-select
         v-model="form.time"
         placeholder="Выберите время"
@@ -44,22 +51,26 @@
           step: '00:15',
           end: '20:00',
           minTime: `${new Date().getHours()}:${new Date().getMinutes()}`,
-        }" />
+        }"
+      />
     </el-form-item>
 
     <el-form-item
       label="Симптомы"
-      prop="symptoms">
+      prop="symptoms"
+    >
       <el-input
         type="textarea"
-        v-model="form.symptoms" />
+        v-model="form.symptoms"
+      />
     </el-form-item>
 
     <div class="actions">
       <el-button @click="$emit('close')">Отмена</el-button>
       <el-button
         type="primary"
-        @click="onSubmit('consultationForm')">
+        @click="onSubmit('consultationForm')"
+      >
         {{ editedConsultation ? "Редактировать" : "Добавить" }}
       </el-button>
     </div>
@@ -67,7 +78,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex"
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "ConsultationsForm",
@@ -87,7 +98,7 @@ export default {
         symptoms: "",
         patientId: null,
       },
-    }
+    };
   },
 
   computed: {
@@ -100,13 +111,13 @@ export default {
         date: [{ required: true, message: "Обязательное поле" }],
         time: [{ required: true, trigger: "blur", validator: this.validateTime }],
         symptoms: [],
-      }
+      };
     },
   },
 
   created() {
     if (this.editedConsultation) {
-      this.form = JSON.parse(JSON.stringify(this.editedConsultation))
+      this.form = JSON.parse(JSON.stringify(this.editedConsultation));
     }
   },
 
@@ -114,12 +125,13 @@ export default {
     ...mapActions("consultations", ["addConsultation", "getConsultations"]),
 
     disabledDate(time) {
-      return time.getTime() < Date.now() - 86400000
+      let dayTimestamp = 86400000;
+      return time.getTime() < Date.now() - dayTimestamp;
     },
 
     validateTime(_, value, callback) {
       if (!value) {
-        callback(new Error("Обязательное поле"))
+        callback(new Error("Обязательное поле"));
       }
 
       const foundConsultingAtTheSameTime = this.consultations.find(
@@ -127,39 +139,39 @@ export default {
           patientId === this.form.patientId &&
           date === this.form.date &&
           time === this.form.time,
-      )
+      );
 
       if (foundConsultingAtTheSameTime) {
-        callback(new Error("Это время уже используется этим пациентом"))
+        callback(new Error("Это время уже используется этим пациентом"));
       }
     },
 
     timeToMinutes(time) {
-      return parseInt(time.slice(0, 2)) * 60 + parseInt(time.slice(3))
+      return parseInt(time.slice(0, 2)) * 60 + parseInt(time.slice(3));
     },
 
     onSubmit(formName) {
-      let isValid
+      let isValid;
 
       this.$refs[formName].validate((valid) => {
-        isValid = valid
-      })
+        isValid = valid;
+      });
 
       if (isValid !== false) {
         if (this.editedConsultation) {
-          this.$emit("edit", this.form)
+          this.$emit("edit", this.form);
         } else {
           this.addConsultation(this.form).then((response) => {
             if (response.ok) {
-              this.getConsultations()
-              this.$emit("close")
+              this.getConsultations();
+              this.$emit("close");
             }
-          })
+          });
         }
       }
     },
   },
-}
+};
 </script>
 
 <style scoped lang="scss">

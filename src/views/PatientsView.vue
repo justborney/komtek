@@ -9,7 +9,10 @@
       Добавить пациента
     </el-button>
 
-    <PatientsSearch v-model="searchedPatient" class="search" />
+    <PatientsSearch
+      v-model="searchedPatient"
+      class="search"
+    />
 
     <PatientsTable :searched-patient="searchedPatient" />
 

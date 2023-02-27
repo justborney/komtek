@@ -1,7 +1,11 @@
 <template>
   <el-container>
     <el-header>
-      <el-menu router mode="horizontal" :default-active="activeIndex">
+      <el-menu
+        router
+        mode="horizontal"
+        :default-active="activeIndex"
+      >
         <el-menu-item index="patients">Пациенты</el-menu-item>
         <el-menu-item index="consultations">Консультации</el-menu-item>
       </el-menu>
