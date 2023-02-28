@@ -1,13 +1,83 @@
 {
   "patients": [
     {
-      "id": 950550,
-      "firstName": "Иван",
-      "lastName": "Иван-ов",
+      "id": 86886,
+      "firstName": "Анжела",
+      "lastName": "Богомазова",
+      "fatherName": "Витальевна",
+      "brithDate": "1994-01-10",
+      "sex": "Женский",
+      "SNILS": "36904579520",
+      "physiologicalData": {
+        "weight": null,
+        "height": null,
+        "age": null
+      }
+    },
+    {
+      "id": 200137,
+      "firstName": "Кирилл",
+      "lastName": "Дураничев",
       "fatherName": "",
-      "brithDate": "2001-06-12",
+      "brithDate": "1969-10-26",
       "sex": "Мужской",
-      "SNILS": "62228279688",
+      "SNILS": "51036907151",
+      "physiologicalData": {
+        "weight": null,
+        "height": null,
+        "age": null
+      }
+    },
+    {
+      "id": 353977,
+      "firstName": "Егор",
+      "lastName": "Фильченков",
+      "fatherName": "",
+      "brithDate": "1991-07-16",
+      "sex": "Мужской",
+      "SNILS": "73326856714",
+      "physiologicalData": {
+        "weight": 86,
+        "height": 177,
+        "age": null
+      }
+    },
+    {
+      "id": 334706,
+      "firstName": "Аркадий",
+      "lastName": "Гребенщиков",
+      "fatherName": "Алексеевич",
+      "brithDate": "1975-06-05",
+      "sex": "Мужской",
+      "SNILS": "89331883957",
+      "physiologicalData": {
+        "weight": 92,
+        "height": 182,
+        "age": 47
+      }
+    },
+    {
+      "id": 595750,
+      "firstName": "Кирилл",
+      "lastName": "Демидов",
+      "fatherName": "Юрьевич",
+      "brithDate": "1984-06-09",
+      "sex": "Мужской",
+      "SNILS": "51906399506",
+      "physiologicalData": {
+        "weight": null,
+        "height": 190,
+        "age": null
+      }
+    },
+    {
+      "id": 48207,
+      "firstName": "Сюзанна",
+      "lastName": "Грызунова",
+      "fatherName": "Наумовна",
+      "brithDate": "1986-07-13",
+      "sex": "Женский",
+      "SNILS": "96044544011",
       "physiologicalData": {
         "weight": null,
         "height": null,
@@ -15,5 +85,27 @@
       }
     }
   ],
-  "consultations": []
+  "consultations": [
+    {
+      "id": 393734,
+      "date": "2023-02-28",
+      "time": "20:00",
+      "symptoms": "",
+      "patientId": 86886
+    },
+    {
+      "id": 657136,
+      "date": "2023-03-01",
+      "time": "08:00",
+      "symptoms": "Боль в горле",
+      "patientId": 200137
+    },
+    {
+      "id": 25735,
+      "date": "2023-03-01",
+      "time": "08:15",
+      "symptoms": "",
+      "patientId": 595750
+    }
+  ]
 }
