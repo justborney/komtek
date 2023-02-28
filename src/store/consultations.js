@@ -15,7 +15,7 @@ export default {
   actions: {
     getConsultations({ commit }) {
       // Запрос для получения списка консультаций
-      fetch(`https://${process.env.VUE_APP_ROOT_API}/consultations`)
+      fetch(`${process.env.VUE_APP_ROOT_API}/consultations`)
         .then((response) => response.json())
         .then((data) => {
           commit("SET_CONSULTATIONS", data); // Вызов мутации для установки списка консультаций в сторе
@@ -25,7 +25,7 @@ export default {
 
     addConsultation(_, data) {
       // Добавление консультации
-      return fetch(`https://${process.env.VUE_APP_ROOT_API}/consultations`, {
+      return fetch(`${process.env.VUE_APP_ROOT_API}/consultations`, {
         method: "POST",
         body: JSON.stringify({
           id: Math.floor(Math.random() * 999999),
@@ -39,7 +39,7 @@ export default {
 
     editConsultation(_, data) {
       // Редактирование консультации
-      return fetch(`https://${process.env.VUE_APP_ROOT_API}/consultations/${data.id}`, {
+      return fetch(`${process.env.VUE_APP_ROOT_API}/consultations/${data.id}`, {
         method: "PUT",
         body: JSON.stringify(data),
         headers: {
@@ -50,7 +50,7 @@ export default {
 
     removeConsultation(_, { id }) {
       // Удаление консультации
-      return fetch(`https://${process.env.VUE_APP_ROOT_API}/consultations/${id}`, {
+      return fetch(`${process.env.VUE_APP_ROOT_API}/consultations/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
