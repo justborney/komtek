@@ -50,8 +50,12 @@
           start: '08:00',
           step: '00:15',
           end: '20:00',
-          minTime: `${new Date().getHours()}:${new Date().getMinutes()}`,
+          minTime:
+            this.form.date === `${new Date(Date.now()).toISOString().split('T')[0]}`
+              ? `${new Date().getHours()}:${new Date().getMinutes()}`
+              : '00:00',
         }"
+        :disabled="!this.form.date"
       />
     </el-form-item>
 
