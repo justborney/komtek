@@ -152,15 +152,18 @@ export default {
         callback(new Error("Обязательное поле"));
       }
 
-      const foundConsultingAtTheSameTime = this.consultations.find(
-        ({ date, time, patientId }) =>
-          patientId === this.form.patientId &&
-          date === this.form.date &&
-          time === this.form.time,
-      );
+      // Валидируем время только при добавлении новой консультации
+      if (!this.editedConsultation) {
+        const foundConsultingAtTheSameTime = this.consultations.find(
+          ({ date, time, patientId }) =>
+            patientId === this.form.patientId &&
+            date === this.form.date &&
+            time === this.form.time,
+        );
 
-      if (foundConsultingAtTheSameTime) {
-        callback(new Error("Это время уже используется этим пациентом"));
+        if (foundConsultingAtTheSameTime) {
+          callback(new Error("Это время уже используется этим пациентом"));
+        }
       }
     },
 

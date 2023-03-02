@@ -83,6 +83,20 @@
         "height": null,
         "age": null
       }
+    },
+    {
+      "id": 930472,
+      "firstName": "Алексей",
+      "lastName": "Соболев",
+      "fatherName": "",
+      "brithDate": "1981-06-10",
+      "sex": "Мужской",
+      "SNILS": "64038772803",
+      "physiologicalData": {
+        "weight": null,
+        "height": null,
+        "age": null
+      }
     }
   ],
   "consultations": [
@@ -98,7 +112,8 @@
       "date": "2023-03-01",
       "time": "08:00",
       "symptoms": "Боль в горле",
-      "patientId": 200137
+      "patientId": 200137,
+      "patientName": "Дураничев Кирилл "
     },
     {
       "id": 25735,
@@ -106,6 +121,21 @@
       "time": "08:15",
       "symptoms": "",
       "patientId": 595750
+    },
+    {
+      "id": 955594,
+      "date": "2023-03-03",
+      "time": "08:00",
+      "symptoms": "ОРВИ",
+      "patientId": 86886,
+      "patientName": "Богомазова Анжела Витальевна"
+    },
+    {
+      "id": 97586,
+      "date": "2023-03-04",
+      "time": "13:30",
+      "symptoms": "Давление",
+      "patientId": 930472
     }
   ]
 }
